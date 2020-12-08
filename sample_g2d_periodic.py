@@ -135,12 +135,16 @@ for param in generator.parameters():
 
 #draw sample
 n_input_ch = 3
-sample_size = 1024
+sample_size = 256
 n_samples = 2
 
+# sz are various sample sizes
 sz = [sample_size /1,sample_size /2,sample_size /4,sample_size /8,sample_size /16,sample_size /32]
+# zk are the initial sets of samples for each sample size
 zk = [torch.rand(n_samples,n_input_ch,int(szk),int(szk)) for szk in sz]
+# Set each sample set to be a Variable
 z_samples = [Variable(z.cuda()) for z in zk ]
+# 
 sample = generator(z_samples)
 
 for n in range(n_samples):

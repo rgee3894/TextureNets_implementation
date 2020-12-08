@@ -26,8 +26,6 @@ from torch.autograd import Function
 import torchvision
 from torchvision import transforms
 
-import argparse
-
 try:
     import display
 except ImportError:
@@ -245,24 +243,8 @@ def postp(tensor): # to clip results in the range [0,1]
     return img
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description='Texture Generation'
-    )
-
-    parser.add_argument('--input',type=str,default='red-peppers256.jpg',
-                        help='Filename of texture to generate from (must be inside Textures folder)')
-
-    parser.add_argument('--imsize', type=int, default=256, help='Image size of texture to generate')
-    
-
-    return parser.parse_args()
-
-args = parse_args()
-
-img_size = args.imsize
+img_size = 256
 n_input_ch = 3
-input_name = args.input
 
 # create generator network
 gen = Pyramid2D(ch_in=3, ch_step=8)
@@ -281,6 +263,8 @@ for param in vgg.parameters():
     param.requires_grad = False
 vgg.cuda()
 
+
+input_name = 'red-peppers256.jpg'
 
 # test folder, backup and results
 time_info = datetime.datetime.now()
